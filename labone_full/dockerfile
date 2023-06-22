@@ -1,0 +1,30 @@
+FROM alpine:latest AS builder
+
+ARG LABONE=https://pub-a579c9a7a5ee41a2ba57327584974c85.r2.dev/23.02.42414/LabOneLinux64-23.02.42414.tar.gz
+
+RUN curl -LO ${LABONE} \
+	&& tar -xvf LabOneLinux* \
+	&& rm -f *.tar.gz
+
+
+FROM python:3.11-buster
+
+COPY --chmod=755 start.sh .
+
+ARG USER=labone
+ARG USER_ID=1035
+ARG USER_GID=100
+
+RUN useradd -r -u ${USER_ID} -g ${USER_GID} ${USER} \
+	&& mkdir -p /home/${USER} \
+	&& chown -R ${USER_ID}:${USER_GID} /home/${USER} \
+	&& chown -R ${USER_ID}:${USER_GID} /tmp \
+	&& chmod 777 /tmp \
+	&& pip install numpy typing-extensions zhinst_core
+
+COPY --from=builder LabOneLinux* ./labone/
+
+USER ${USER}
+ENV USER ${USER}
+
+CMD ["/start.sh"]
