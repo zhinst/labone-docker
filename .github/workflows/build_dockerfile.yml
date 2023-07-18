@@ -32,6 +32,6 @@ jobs:
         with:
           push: false
           platforms: linux/amd64,linux/arm64
-          tags: zhinst/labone:full-${{ env.VERSION }}, zhinst/labone:full-${{ env.SHORT_VERSION }}
+          tags: zhinst/labone:${{ env.VERSION }}-full, zhinst/labone:${{ env.SHORT_VERSION }}-full
           build-args:
             LABONE_VERSION=${{ env.VERSION }}
