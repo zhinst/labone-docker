@@ -38,7 +38,7 @@ jobs:
         with:
           push: true
           platforms: linux/amd64,linux/arm64
-          tags: zhinst/labone:full-${{ env.VERSION }}, zhinst/labone:full-${{ env.SHORT_VERSION }}
+          tags: zhinst/labone:${{ env.VERSION }}-full, zhinst/labone:${{ env.SHORT_VERSION }}-full
           build-args:
             LABONE_VERSION=${{ env.VERSION }}
       -
@@ -47,7 +47,7 @@ jobs:
         with:
           push: true
           platforms: linux/amd64,linux/arm64
-          tags: zhinst/labone:dataserver-${{ env.VERSION }}, zhinst/labone:dataserver-${{ env.SHORT_VERSION }}
+          tags: zhinst/labone:${{ env.VERSION }}-dataserver, zhinst/labone:${{ env.SHORT_VERSION }}-dataserver
           target: labone_dataserver
           build-args:
             LABONE_VERSION=${{ env.VERSION }}
@@ -57,7 +57,7 @@ jobs:
         with:
           push: true
           platforms: linux/amd64,linux/arm64
-          tags: zhinst/labone:webserver-${{ env.VERSION }}, zhinst/labone:webserver-${{ env.SHORT_VERSION }}
+          tags: zhinst/labone:${{ env.VERSION }}-webserver, zhinst/labone:${{ env.SHORT_VERSION }}-webserver
           target: labone_webserver
           build-args:
             LABONE_VERSION=${{ env.VERSION }}
