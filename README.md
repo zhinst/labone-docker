@@ -38,7 +38,7 @@ To run the Data Server, you can use the following command:
 ```
 docker run -d --rm --name labone-dataserver \
            --network=host \
-           zhinst/labone:23.06-dataserver
+           zhinst/labone:23.10-dataserver
 ```
 
 We recommend using `--network=host` to avoid port mapping issues. The Data
@@ -59,7 +59,7 @@ To run the Web Server, you can use the following command:
 ```
 docker run -d --rm --name labone-webserver \
            --network=host \
-           zhinst/labone:23.06-webserver
+           zhinst/labone:23.10-webserver
 ```
 
 Also here, we recommend using `--network=host` to avoid port mapping issues.
@@ -77,5 +77,5 @@ To run the LabOne All-in-One image, you can use the following command:
 ```
 docker run -d --rm --name labone-full \
            --network=host \
-           zhinst/labone:23.06-full
+           zhinst/labone:23.10-full
 ```
