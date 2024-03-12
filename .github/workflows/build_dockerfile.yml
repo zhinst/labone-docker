@@ -11,15 +11,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       -
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       -
         name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
+        uses: docker/setup-qemu-action@v3
         with:
           platforms: 'arm64,arm'
       -
         name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v3
       -
         name: Set LabOne version
         run: |
@@ -28,7 +28,7 @@ jobs:
           echo "SHORT_VERSION=${VER:0:5}" >> $GITHUB_ENV
       -
         name: Build LabOne All-in-One Docker image
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v5
         with:
           push: false
           platforms: linux/amd64,linux/arm64
