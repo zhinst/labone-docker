@@ -1,5 +1,5 @@
 ARG LABONE_VERSION=24.10.64896
-ARG LABONE_BASE_URL=https://download.zhinst.com/${LABONE_VERSION}
+ARG LABONE_BASE_URL=https://download.zhinst.com/l1-releases/${LABONE_VERSION}
 
 
 FROM alpine:latest AS builder
