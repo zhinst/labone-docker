@@ -39,7 +39,7 @@ FROM labone_webserver as labone_full
 RUN apt-get update \
 	&& apt-get install -y curl python3-pip \
 	&& rm -rf /var/lib/apt/lists/* \
-	&& pip install numpy==1.26.4 typing-extensions
+	&& pip install numpy==2.1.2 typing-extensions
 
 COPY --from=builder LabOneLinux*/API ./labone/API/
 
