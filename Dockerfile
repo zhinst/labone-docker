@@ -14,19 +14,19 @@ RUN chmod +x download_and_unpack_labone.sh \
 	&& ./download_and_unpack_labone.sh
 
 
-FROM ubuntu:22.04 as labone_base
+FROM ubuntu:22.04 AS labone_base
 
 COPY --from=builder LabOneLinux*/DataServer ./labone/DataServer/
 COPY --from=builder LabOneLinux*/Firmware ./labone/Firmware/
 
 
-FROM labone_base as labone_dataserver
+FROM labone_base AS labone_dataserver
 
 EXPOSE 8001 8003 8004 41000-41100
 ENTRYPOINT ["/labone/DataServer/ziDataServer"]
 
 
-FROM labone_base as labone_webserver
+FROM labone_base AS labone_webserver
 
 COPY --from=builder LabOneLinux*/WebServer ./labone/WebServer/
 COPY --from=builder LabOneLinux*/Documentation ./labone/Documentation/
@@ -34,7 +34,7 @@ EXPOSE 8006
 ENTRYPOINT ["/labone/WebServer/ziWebServer"]
 
 
-FROM labone_webserver as labone_full
+FROM labone_webserver AS labone_full
 
 RUN apt-get update \
 	&& apt-get install -y curl python3-pip \
