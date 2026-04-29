@@ -1,4 +1,4 @@
-ARG LABONE_VERSION=26.01.3.9
+ARG LABONE_VERSION=26.04.0.940
 ARG LABONE_BASE_URL=https://download.zhinst.com/l1-releases/${LABONE_VERSION}
 
 
