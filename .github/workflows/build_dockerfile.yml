@@ -4,6 +4,12 @@ on:
   pull_request:
     branches:
       - 'main'
+    paths:
+      - 'Dockerfile'
+      - 'download_and_*.sh'
+      - 'start.sh'
+      - 'labone_version.txt'
+      - '.github/workflows/build_dockerfile.yml'
 
 
 jobs:
