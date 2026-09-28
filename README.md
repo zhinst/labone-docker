@@ -27,12 +27,14 @@ docker buildx build . --platform <platform> \
 
 Pre-built images can be found at Docker Hub under the [zhinst/labone](https://hub.docker.com/r/zhinst/labone) repository.
 
+The `latest-<flavor>` tags (and `latest`, an alias of `latest-full`) always point to the newest public LabOne release.
+
 ### LabOne Data Server
 
 This image contains only the LabOne Data Server and the device firmware
 packages. The [`ENTRYPOINT`](https://docs.docker.com/engine/reference/builder/#entrypoint) of this image is the LabOne Data Server.
 
-Available Docker tags : `<LABONE_VERSION>-dataserver`, `<LABONE_SHORT_VERSION>-dataserver`
+Available Docker tags : `<LABONE_VERSION>-dataserver`, `<LABONE_SHORT_VERSION>-dataserver`, `latest-dataserver`
 
 To run the Data Server, you can use the following command:
 ```
@@ -53,7 +55,7 @@ requires different network configuration.
 This image contains all of the above plus the LabOne documentation and
 the LabOne Web Server, which serves as the image's [`ENTRYPOINT`](https://docs.docker.com/engine/reference/builder/#entrypoint).
 
-Available Docker tags : `<LABONE_VERSION>-webserver`, `<LABONE_SHORT_VERSION>-webserver`
+Available Docker tags : `<LABONE_VERSION>-webserver`, `<LABONE_SHORT_VERSION>-webserver`, `latest-webserver`
 
 To run the Web Server, you can use the following command:
 ```
@@ -71,7 +73,7 @@ This images contains the full installation of LabOne, plus Python and
 [shell script](https://github.com/zhinst/labone-docker/blob/main/start.sh) starting both LabOne Web Server (in background) and
 Data Server.
 
-Available Docker tags: `<LABONE_VERSION>-full`, `<LABONE_SHORT_VERSION>-full`
+Available Docker tags: `<LABONE_VERSION>-full`, `<LABONE_SHORT_VERSION>-full`, `latest-full`, `latest`
 
 To run the LabOne All-in-One image, you can use the following command:
 ```
