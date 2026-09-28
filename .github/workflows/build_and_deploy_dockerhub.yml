@@ -5,6 +5,11 @@ on:
     tags:
       - 'v*'
 
+# Serialize deploys so concurrent tag pushes cannot race on the latest tags
+concurrency:
+  group: dockerhub-deploy
+  cancel-in-progress: false
+
 
 jobs:
   docker:
@@ -23,6 +28,19 @@ jobs:
           fi
           echo "VERSION=$VER" >> $GITHUB_ENV
           echo "SHORT_VERSION=${VER:0:5}" >> $GITHUB_ENV
+      -
+        name: Determine if latest public release
+        run: |
+          VER_PATTERN='^v[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$'
+          HIGHEST_VER=$(git ls-remote --tags --refs origin 'v*' \
+                    | sed 's#.*refs/tags/##' | grep -E "$VER_PATTERN" \
+                    | sort -V | tail -n1)
+          if [[ "$GITHUB_REF_NAME" =~ $VER_PATTERN ]] && [ "$GITHUB_REF_NAME" = "$HIGHEST_VER" ]; then
+            echo "IS_LATEST=true" >> $GITHUB_ENV
+          else
+            echo "IS_LATEST=false" >> $GITHUB_ENV
+            echo "::notice::$GITHUB_REF_NAME is not the newest public release ($HIGHEST_VER); latest tags are not updated"
+          fi
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v4
@@ -43,7 +61,11 @@ jobs:
         with:
           push: true
           platforms: linux/amd64,linux/arm64
-          tags: zhinst/labone:${{ env.VERSION }}-full, zhinst/labone:${{ env.SHORT_VERSION }}-full
+          tags: |
+            zhinst/labone:${{ env.VERSION }}-full
+            zhinst/labone:${{ env.SHORT_VERSION }}-full
+            ${{ env.IS_LATEST == 'true' && 'zhinst/labone:latest-full' || '' }}
+            ${{ env.IS_LATEST == 'true' && 'zhinst/labone:latest' || '' }}
           build-args:
             LABONE_VERSION=${{ env.VERSION }}
       -
@@ -52,7 +74,10 @@ jobs:
         with:
           push: true
           platforms: linux/amd64,linux/arm64
-          tags: zhinst/labone:${{ env.VERSION }}-dataserver, zhinst/labone:${{ env.SHORT_VERSION }}-dataserver
+          tags: |
+            zhinst/labone:${{ env.VERSION }}-dataserver
+            zhinst/labone:${{ env.SHORT_VERSION }}-dataserver
+            ${{ env.IS_LATEST == 'true' && 'zhinst/labone:latest-dataserver' || '' }}
           target: labone_dataserver
           build-args:
             LABONE_VERSION=${{ env.VERSION }}
@@ -62,7 +87,10 @@ jobs:
         with:
           push: true
           platforms: linux/amd64,linux/arm64
-          tags: zhinst/labone:${{ env.VERSION }}-webserver, zhinst/labone:${{ env.SHORT_VERSION }}-webserver
+          tags: |
+            zhinst/labone:${{ env.VERSION }}-webserver
+            zhinst/labone:${{ env.SHORT_VERSION }}-webserver
+            ${{ env.IS_LATEST == 'true' && 'zhinst/labone:latest-webserver' || '' }}
           target: labone_webserver
           build-args:
             LABONE_VERSION=${{ env.VERSION }}
